@@ -16,7 +16,7 @@ It streamlines IT processes, provides real-time access to shared data and applic
 
 Amazon Web Services (AWS) is a cloud computing platform provided by Amazon that includes services related to networking, compute, storage, middleware, IoT and other processing capacity, as well as software tools.
 
-AWS was originally created to tackle the requirements of Amazons own e-commerce business and with its initial rapid innovation and development, the business was made avaiable to other companies. Its first major service was the Simple Storage Service (S3) in 2007, which provided businesses with a scalable storage solution. The next major service came into effect a year later with Elastic Compute Cloud (EC2) that supplied scalable computing resources.
+AWS was originally created to tackle the requirements of Amazons own e-commerce business and with its initial rapid innovation and development, the business was made available to other companies. Its first major service was the Simple Storage Service (S3) in 2007, which provided businesses with a scalable storage solution. The next major service came into effect a year later with Elastic Compute Cloud (EC2) that supplied scalable computing resources.
 
 ### **The As A Service business model**
 
