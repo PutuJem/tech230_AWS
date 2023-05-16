@@ -95,6 +95,6 @@ $ sudo systemctl status nginx
 
 11. To access the web server, enter the instances Public IPv4 address into a browsers address bar.
 
-![nginx](nginx_server.png)
+![nginx](nginx_server.PNG)
 
 >Note: The web server can be accessed with the `IP address` or with `http://<IP_address>`.
