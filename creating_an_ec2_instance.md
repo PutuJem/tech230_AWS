@@ -19,21 +19,25 @@
 
 7. Select the instance type for the applications computing requirements.
 
-![type](type.png)
-
 >Note: For basic applications, `t2.micro` is sufficient. 
 
-8. Configure the firewall to change the security group name and description as shown below. 
+8. Create a **Key-Pair**; download the `.PEM` key and store it within your local `~/.ssh` folder. Ensure to select the corresponding key pair as shown in the screenshot below.
+
+>For this example, `tech230` is the key pair. 
+
+![type](type.png)
+
+9. Configure the firewall to change the security group name and description as shown below. 
 
 >Note: use the same naming convention as shown in `step 4`.
 
-9.  Add a security group rule for inbound; select `HTTP` and the source `0.0.0.0/0`.
+10.  Add a security group rule for inbound; select `HTTP` and the source `0.0.0.0/0`.
 
 >Note: This will allow us to connect to the static webpage further along the tutorial.
 
 ![SG](sg.png)
 
-10. Finally, check the EC2 has been configured correctly and click the "Launch instance" button.
+11. Finally, check the EC2 has been configured correctly and click the "Launch instance" button.
 
 ![summary](summary.png)
 
