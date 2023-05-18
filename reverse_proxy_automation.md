@@ -1,0 +1,118 @@
+
+# Automating a reverse proxy and application start-up
+
+Create a new instance of the application image; ensure use the correct naming convention, key pair `tech230.pem` and security group.
+
+Enter the instance through a new git bash terminal using the ssh command provided in the connect section of the instance summary.
+
+>An example of this is shown below.
+
+```bash
+ssh -i "~/.ssh/tech230.pem" root@ec2-3-253-80-245.eu-west-1.compute.amazonaws.com
+```
+
+Check the files already present with in the instance.
+
+```bash
+ls
+```
+
+Create a new provision file to include a script to setup the reverse proxy and start the application.
+
+```bash
+touch app-provision.sh
+```
+
+Check the user rights and ensure the user is able to execute files.
+
+```bash
+ls -l
+```
+
+```bash
+chmod u+x app-provision.sh
+```
+
+> Once the file turns green, the user is able to excute.
+
+![ls page](ls.png)
+
+To setup the automation script, first enter the file.
+
+```bash
+sudo nano app-provision.sh
+```
+
+Secondly, paste the script below into the `app-provision.sh` file.
+
+> The script provides comments with instructions on what each command accomplishes.
+
+```bash
+#!/bin/bash
+
+# Update and upgrade the package manager.
+
+sudo apt-get update -y
+
+sudo apt-get upgrade -y
+
+# Install the Nginx web server.
+
+sudo apt-get install nginx -y
+
+# Overwrite the contents of the default configuration file and output the new file contents.
+
+echo "
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+
+    server_name _;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host \$host;
+        proxy_cache_bypass \$http_upgrade;
+    }
+
+    location /posts {
+        proxy_pass http://localhost:3000/posts;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host \$host;
+        proxy_cache_bypass \$http_upgrade;
+    }
+}" | sudo tee /etc/nginx/sites-available/default
+
+# Start the Nginx web server; remember to use the `enable` to enable a service on next system restart.
+
+sudo systemctl stop nginx 
+
+sudo systemctl start nginx
+
+sudo systemctl enable nginx
+
+# Navigate to the app folder
+
+cd app/app
+
+# Run the application
+
+pm2 start app.js
+```
+
+Save and exit the file using `ctrl+x`.
+
+Then run the script.
+
+```bash
+sudo nano app-provision.sh
+```
+
+Navigate to the web browser and enter the IPv4 address.

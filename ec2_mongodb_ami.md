@@ -36,19 +36,15 @@
 
 ### **Creating an AMI from the MongoDB instance**
 
-9. To create the AMI, highlight the MongoDB instance and navigate through `actions`, `image and templates` then select `create template from instance`.
+9. To create the AMI, highlight the MongoDB instance and navigate through `actions`, `image and templates` then select `create image`.
 
 ![](mongo_template0.png)
 
 10. Suitably name the template following the instance naming convention and enter an appropriate description. Finally, launch the template.
 
-![](mongo_template.png)
+11. Check the AMI works through launching an instance, as per `step 1`.
 
-11. Check the AMI works through creating a new `instance from templates`.
-
-![](mongo_launchtemplate.png)
-
-12. Select the AMI image that was recently created.
+12. Follow the naming convention outlined `step 2` for the AMI and select `My AMIs` followed by the AMI that was just created. Additional, ensure the correct key pay and security group are also selected.
 
 ![](mongo_launchtemplate2.png)
 
