@@ -98,18 +98,40 @@ sudo systemctl start nginx
 
 sudo systemctl enable nginx
 
+# install application dependant Node packages
+
+sudo apt-get install python-software-properties -y
+
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+
+sudo apt-get install nodejs -y
+
+sudo npm install pm2 -g
+
+# change env variable
+
+echo "export DB_HOST=mongodb://<private_IP_address>:27017/posts" >> .bashrc
+
+# Get the app folder from a GitHub repo
+
+git clone https://github.com/PutuJem/tech230_AWS.git
+
 # Navigate to the app folder
 
-cd app/app
+cd tech230_AWS/app/app
 
 # Run the application
 
-pm2 start app.js
+npm install
+
+node seeds/seed/js
+
+pm2 start app.js --update-env
 ```
 
 Save and exit the file using `ctrl+x`.
 
-Then run the script.
+After starting a new instance, the user will be required to perform a manual command to replace the IP address within the DB_HOST environment variable.
 
 ```bash
 sudo nano app-provision.sh
