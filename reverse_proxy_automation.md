@@ -88,7 +88,7 @@ server {
         proxy_set_header Host \$host;
         proxy_cache_bypass \$http_upgrade;
     }
-}" | sudo tee /etc/nginx/sites-available/default
+}" > /etc/nginx/sites-available/default
 
 # Start the Nginx web server; remember to use the `enable` to enable a service on next system restart.
 
