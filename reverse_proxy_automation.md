@@ -110,7 +110,7 @@ sudo npm install pm2 -g
 
 # change env variable
 
-echo "export DB_HOST=mongodb://<private_IP_address>:27017/posts" >> .bashrc
+echo "export DB_HOST=mongodb://<old_private_IP_address>:27017/posts" >> .bashrc
 
 # Get the app folder from a GitHub repo
 
@@ -133,8 +133,10 @@ Save and exit the file using `ctrl+x`.
 
 After starting a new instance, the user will be required to perform a manual command to replace the IP address within the DB_HOST environment variable.
 
+> Amend the `<new_private_IP_address>` as shown in the command below.
+
 ```bash
-sudo nano app-provision.sh
+sed -i 's/<new_private_IP_address>/<old_private_IP_address>/g' app-provision.sh
 ```
 
 Navigate to the web browser and enter the IPv4 address.
