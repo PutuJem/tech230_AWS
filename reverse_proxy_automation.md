@@ -62,37 +62,15 @@ sudo apt-get install nginx -y
 
 # Overwrite the contents of the default configuration file and output the new file contents.
 
-echo "
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+sudo sed -i 's+try_files $uri $uri/ =404;+proxy_pass http://localhost:3000;+' /etc/nginx/sites-available/default
 
-    root /var/www/html;
+# change the environment variable
 
-    server_name _;
-
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host \$host;
-        proxy_cache_bypass \$http_upgrade;
-    }
-
-    location /posts {
-        proxy_pass http://localhost:3000/posts;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host \$host;
-        proxy_cache_bypass \$http_upgrade;
-    }
-}" > /etc/nginx/sites-available/default
+echo 'export DB_HOST=mongodb://<mongodb_private_IP_address>/posts' >> .bashrc
 
 # Start the Nginx web server; remember to use the `enable` to enable a service on next system restart.
 
-sudo systemctl stop nginx 
+sudo systemctl stop nginx
 
 sudo systemctl start nginx
 
@@ -108,19 +86,17 @@ sudo apt-get install nodejs -y
 
 sudo npm install pm2 -g
 
-# change env variable
-
-echo "export DB_HOST=mongodb://<old_private_IP_address>:27017/posts" >> .bashrc
-
 # Get the app folder from a GitHub repo
 
 git clone https://github.com/PutuJem/tech230_AWS.git
 
 # Navigate to the app folder
 
-cd tech230_AWS/app/app
+cd ~/tech230_AWS/app/app/
 
-# Run the application
+# Stop all running processes, in case there are any, then run the application
+
+pm2 stop all
 
 npm install
 
@@ -136,7 +112,35 @@ After starting a new instance, the user will be required to perform a manual com
 > Amend the `<new_private_IP_address>` as shown in the command below.
 
 ```bash
-sed -i 's/<new_private_IP_address>/<old_private_IP_address>/g' app-provision.sh
+sed -i -e 's/<old_private_IP_address>/<new_private_IP_address>/g' app-provision.sh
 ```
 
-Navigate to the web browser and enter the IPv4 address.
+Navigate to the web browser and enter the public IPv4 address.
+
+# Automating the MongoDB instance and configuration files.
+
+```bash
+#!/bin/bash
+
+sudo apt-get update -y
+
+sudo apt-get upgrade -y
+
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv D68FA50FEA312927
+
+echo "deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+
+sudo apt-get update -y
+
+sudo apt-get upgrade -y
+
+sudo apt-get install -y mongodb-org=3.2.20 mongodb-org-server=3.2.20 mongodb-org-shell=3.2.20 mongodb-org-mongos=3.2.20 mongodb-org-tools=3.2.20
+
+sudo systemctl start mongod
+
+sudo systemctl enable mongod
+
+sudo systemctl status mongod
+
+
+```
