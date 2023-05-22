@@ -50,6 +50,8 @@ Secondly, paste the script below into the `app-provision.sh` file.
 ```bash
 #!/bin/bash
 
+cd ~/
+
 # Update and upgrade the package manager.
 
 sudo apt-get update -y
@@ -88,11 +90,11 @@ sudo npm install pm2 -g
 
 # Get the app folder from a GitHub repo
 
-git clone https://github.com/PutuJem/tech230_AWS.git
+git clone https://github.com/PutuJem/tech230_AWS.git ~/app
 
 # Navigate to the app folder
 
-cd ~/tech230_AWS/app/app/
+cd ~/app/app/app/
 
 # Stop all running processes, in case there are any, then run the application
 
