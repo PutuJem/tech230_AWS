@@ -10,7 +10,7 @@ A tutorial walk-through of this can be found in [Creating an AMI](https://github
 
 ![](autoscaling_setup_images/1_create.png)
 
-2. Create a name and select an appropriate launch template or AMI.
+1. Create a name and select an appropriate launch template.
 
 ![](autoscaling_setup_images/2_name.png)
 
@@ -18,7 +18,7 @@ A tutorial walk-through of this can be found in [Creating an AMI](https://github
 
 ![](autoscaling_setup_images/3_network.png)
 
-4. Attache a new load balancer, as shown in the example below, and select "Application Load Balancer" with an appropriate name. Ensure to also amend the scheme to "Internet-facing", as the application is being accessed through the internet.
+4. Attach a new load balancer, as shown in the example below, and select "Application Load Balancer" with an appropriate name. Ensure to also amend the scheme to "Internet-facing", as the application is being accessed through the internet.
 
  > Note: Turn on the Elastic Load Balancing health checks, as recommended by AWS.
 
