@@ -2,7 +2,7 @@
 
 Prior to the auto scaling setup, ensure a working instance of the AMI application is available and create a launch template from it.
 
- >Note: the application state may not be running once the template is created so use the user group to execute the provision.
+ >Important note: the application state may not be run once the template is created; enter the provision script into the template user data.
 
 A tutorial walk-through of this can be found in [Creating an AMI](https://github.com/PutuJem/tech230_AWS/blob/main/creating_an_ec2_instance.md).
 
@@ -28,21 +28,21 @@ A tutorial walk-through of this can be found in [Creating an AMI](https://github
 
 ![](autoscaling_setup_images/5_listen.png)
 
-Set a suitable group size.
+6. Set a suitable group size.
 
 ![](autoscaling_setup_images/6_group.png)
 
-Select the "Target tracking scaling policy" and set the rules to scale out as intended.
+7. Select the "Target tracking scaling policy" and set the rules to scale out as intended.
 
 ![](autoscaling_setup_images/7_policy.png)
 
-Create a tag to assist in identifying the auto scaling group; in example, set the key as "Name" and value as "tech230-james-ASG".
+8. Create a tag to assist in identifying the auto scaling group; in example, set the key as "Name" and value as "tech230-james-ASG".
 
-Review the configuration of the scaling group and when ready, create the auto scaling group.
+9. Review the configuration of the scaling group and when ready, create the auto scaling group.
 
-To test the application is working as intended, navigate to the "Load balancer" tab within EC2 services and select the recently created auto scaling group.
+10. To test the application is working as intended, navigate to the "Load balancer" tab within EC2 services and select the recently created auto scaling group.
 
-Locate the DNS address and enter it into the web address, the application should be displayed as shown. 
+11. Locate the DNS address and enter it into the web address, the application should be displayed as shown. 
 
 ![](autoscaling_setup_images/8_balancer.png)
 
