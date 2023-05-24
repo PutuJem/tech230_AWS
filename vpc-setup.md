@@ -2,6 +2,8 @@
 
 When setting up the VPC, it is first important to understand how each component of the setup work with on another. The diagram below is a visualisation of the connection between these components. 
 
+![](vpc/vpc.png)
+
 The steps to setup the VPC for this tutorial are outlined below:
 
 - Step 1: Create a VPC.
@@ -11,8 +13,6 @@ The steps to setup the VPC for this tutorial are outlined below:
 - Step 5: Setup route table.
 - Step 6: Connect route table to subnet.
 - Step 7: Connect internet gateway to the route table.
-
-![](vpc/vpc.png)
 
 1. The initial step is to create the VPC through the AWS VPC service and selecting "Create VPC".
 
