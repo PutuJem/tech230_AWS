@@ -12,7 +12,7 @@ The steps to setup the VPC for this tutorial are outlined below:
 - Step 6: Connect route table to subnet.
 - Step 7: Connect internet gateway to the route table.
 
-![](vpc/vpc.PNG)
+![](vpc/vpc.png)
 
 1. The initial step is to create the VPC through the AWS VPC service and selecting "Create VPC".
 
