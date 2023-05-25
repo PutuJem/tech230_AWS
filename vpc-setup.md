@@ -6,7 +6,7 @@ When setting up the VPC, it is first important to understand how each component 
 
 The steps to setup the VPC for this tutorial are outlined below:
 
-- Step 1: Create a VPC.
+- [Step 1: Create a VPC][]
 - Step 2: Configure Internet gateway (IGW).
 - Step 3: Connect IGW to VPC.
 - Step 4: Create Public subnet.

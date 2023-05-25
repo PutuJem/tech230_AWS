@@ -1,5 +1,55 @@
 
-# Automating a reverse proxy and application start-up
+# Automating a two-tier architecture application
+
+This is a comprehensive guide to setting up a two-tier architecture application containing Sparta Globals web-application and a MongoDB database.
+
+To setup the two-tier architecture, it is recommended that the steps are followed in sequence.
+
+### **Automating the MongoDB instance and configuration files**
+
+Create a new EC2 instance with the suitable configuration for (***in example***):
+- OS AMI image (***ubuntu 18.04, normal image***)
+- Instance type (***t2.micro***)
+- Key pair
+- Security Group (***Allowing ports 22, 80, 443, 3000***)
+  
+Add the script below to the `User Data` field, within the `Advanced` settings.
+
+```bash
+#!/bin/bash
+
+cd /home/ubuntu/
+
+sudo apt-get update -y
+
+sudo apt-get upgrade -y
+
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv D68FA50FEA312927
+
+echo "deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+
+sudo apt-get update -y
+
+sudo apt-get upgrade -y
+
+sudo apt-get install -y mongodb-org=3.2.20 mongodb-org-server=3.2.20 mongodb-org-shell=3.2.20 mongodb-org-mongos=3.2.20 mongodb-org-tools=3.2.20
+
+sudo sed -i 's+bindIp: 127.0.0.1+bindIp: 0.0.0.0+' /etc/mongod.conf
+
+sudo systemctl restart mongod
+
+sudo systemctl enable mongod
+```
+
+To test, `ssh` into the instance through git bash and check that mongodb is running and active.
+
+```bash
+sudo systemctl status mongod
+```
+
+Before proceeding to the next step, ensure the instance is still running and copy its private IPv4 address.
+
+### **Automating the application setup and reverse proxy**
 
 Create a new instance of the application image; ensure use the correct naming convention, key pair `tech230.pem` and security group.
 
@@ -50,35 +100,19 @@ Secondly, paste the script below into the `app-provision.sh` file.
 ```bash
 #!/bin/bash
 
-cd ~/
-
-# Update and upgrade the package manager.
+cd /home/ubuntu/
 
 sudo apt-get update -y
 
 sudo apt-get upgrade -y
 
-# Install the Nginx web server.
-
 sudo apt-get install nginx -y
-
-# Overwrite the contents of the default configuration file and output the new file contents.
 
 sudo sed -i 's+try_files $uri $uri/ =404;+proxy_pass http://localhost:3000;+' /etc/nginx/sites-available/default
 
-# change the environment variable
-
-echo 'export DB_HOST=mongodb://<mongodb_private_IP_address>/posts' >> .bashrc
-
-# Start the Nginx web server; remember to use the `enable` to enable a service on next system restart.
-
-sudo systemctl stop nginx
-
-sudo systemctl start nginx
+sudo systemctl restart nginx
 
 sudo systemctl enable nginx
-
-# install application dependant Node packages
 
 sudo apt-get install python-software-properties -y
 
@@ -88,23 +122,19 @@ sudo apt-get install nodejs -y
 
 sudo npm install pm2 -g
 
-# Get the app folder from a GitHub repo
+export DB_HOST=mongodb://<db-private-ip>:27017/posts
 
-git clone https://github.com/PutuJem/tech230_AWS.git ~/app
+git clone https://github.com/PutuJem/tech230_AWS.git /home/ubuntu/app
 
-# Navigate to the app folder
-
-cd ~/app/app/app/
-
-# Stop all running processes, in case there are any, then run the application
-
-pm2 stop all
+cd /home/ubuntu/app/app/app/
 
 npm install
 
-node seeds/seed/js
+node seeds/seed.js
 
 pm2 start app.js --update-env
+
+pm2 restart app.js --update-env
 ```
 
 Save and exit the file using `ctrl+x`.
@@ -118,31 +148,3 @@ sed -i -e 's/<old_private_IP_address>/<new_private_IP_address>/g' app-provision.
 ```
 
 Navigate to the web browser and enter the public IPv4 address.
-
-# Automating the MongoDB instance and configuration files.
-
-```bash
-#!/bin/bash
-
-sudo apt-get update -y
-
-sudo apt-get upgrade -y
-
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv D68FA50FEA312927
-
-echo "deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
-
-sudo apt-get update -y
-
-sudo apt-get upgrade -y
-
-sudo apt-get install -y mongodb-org=3.2.20 mongodb-org-server=3.2.20 mongodb-org-shell=3.2.20 mongodb-org-mongos=3.2.20 mongodb-org-tools=3.2.20
-
-sudo systemctl start mongod
-
-sudo systemctl enable mongod
-
-sudo systemctl status mongod
-
-
-```
