@@ -102,36 +102,36 @@ Begin by creating a VPC and Internet Gateway as per Steps 1, 2 and 3.
 
 Then create the public subnet followed by the private subnet in one instance. The public subnet in this example is set to the Availability Zone to `eu-west-1a` and IPv4 CIDR block to `10.0.2.0/24`. The private subnet is alternatively set to the Availability Zone to `eu-west-1b` and IPv4 CIDR block to `10.0.3.0/24`.
 
-![](vpc/24.PNG)
+![](vpc/24.png)
 
 Navigate to the route table, which should already have a route table configured; this will be for our private subnet. Create a new route table as per Step 5 and route it to the Internet Gateway. Configure the subnet association to the public subnet. The private subnet will not be required to be modified.
 
-![](vpc/25.PNG)
+![](vpc/25.png)
 
 Within the `Your VPCs` tab, your VPC should now display a resource map showing the different connections. Notice the automatic configuration of the private route table and subnet.
 
-![](vpc/26.PNG)
+![](vpc/26.png)
 
 Initiate a new instance for the database
 
-![](vpc/27.PNG)
+![](vpc/27.png)
 
 Create a new security group only for the database.
 
-![](vpc/28.PNG)
+![](vpc/28.png)
 
 Initiate a new instance for the application
 
-![](vpc/29.PNG)
+![](vpc/29.png)
 
 Create a new security group only for the application.
 
-![](vpc/30.PNG)
+![](vpc/30.png)
 
 Enter the commands to deploy the application and ensure to add the database private IP into the environment variable.
 
-![](vpc/31.PNG)
+![](vpc/31.png)
 
 The application should now be available on the web browser.
 
-![](vpc/32.PNG)
+![](vpc/32.png)
