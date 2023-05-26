@@ -91,3 +91,47 @@ The VPC has now been setup; this VPC can now be selected when creating an instan
  >In this example, nginx was installed and configured into the new VPC.
 
 ![](vpc/18.PNG)
+
+### **Deploying a two-tier architecture on a VPC**
+
+Continuing on from this setup guide, the next stage is to deploy a two tier architecture as shown in the initial VPC diagram.
+
+A prerequisite to beginning this guide is to have an automated userdata script for an application and MongoDB; this script can be found in this [two-tier automation guide](https://github.com/PutuJem/tech230_AWS/blob/main/2-tier-automation.md).
+
+Begin by creating a VPC and Internet Gateway as per Steps 1, 2 and 3.
+
+Then create the public subnet followed by the private subnet in one instance. The public subnet in this example is set to the Availability Zone to `eu-west-1a` and IPv4 CIDR block to `10.0.2.0/24`. The private subnet is alternatively set to the Availability Zone to `eu-west-1b` and IPv4 CIDR block to `10.0.3.0/24`.
+
+![](vpc/24.PNG)
+
+Navigate to the route table, which should already have a route table configured; this will be for our private subnet. Create a new route table as per Step 5 and route it to the Internet Gateway. Configure the subnet association to the public subnet. The private subnet will not be required to be modified.
+
+![](vpc/25.PNG)
+
+Within the `Your VPCs` tab, your VPC should now display a resource map showing the different connections. Notice the automatic configuration of the private route table and subnet.
+
+![](vpc/26.PNG)
+
+Initiate a new instance for the database
+
+![](vpc/27.PNG)
+
+Create a new security group only for the database.
+
+![](vpc/28.PNG)
+
+Initiate a new instance for the application
+
+![](vpc/29.PNG)
+
+Create a new security group only for the application.
+
+![](vpc/30.PNG)
+
+Enter the commands to deploy the application and ensure to add the database private IP into the environment variable.
+
+![](vpc/31.PNG)
+
+The application should now be available on the web browser.
+
+![](vpc/32.PNG)
